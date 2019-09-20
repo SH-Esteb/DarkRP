@@ -99,3 +99,34 @@ function SWEP:startDarkRPCommand(usrcmd)
         self.Switched = false
     end
 end
+
+hook.Add( "PostGamemodeLoaded", "darkrp_stunstick_normal_color", function()
+	if DarkRP then
+		local SWEP = weapons.GetStored( "stunstick" )
+		local Initialize = SWEP.Initialize
+		local null_material = {}
+		local null_function = function()end
+		for funcName,func in pairs( FindMetaTable( "IMaterial" ) ) do
+			if isfunction( func ) then
+				null_material[funcName] = null_function
+			end
+		end
+		
+		function SWEP:Initialize()
+			local old_CreateMaterial = CreateMaterial
+			function CreateMaterial( name, ... )
+				if name~="darkrp/stunstick" then
+					return old_CreateMaterial( name, ... )
+				else
+					return null_material
+				end
+			end
+			
+			local ok, err = pcall( Initialize, self )
+			CreateMaterial = old_CreateMaterial
+			if not ok then
+				error( err )
+			end
+		end
+	end
+end )
