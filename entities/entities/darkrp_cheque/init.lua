@@ -3,6 +3,8 @@ AddCSLuaFile("shared.lua")
 
 include("shared.lua")
 
+local ply = LocalPlayer()
+
 function ENT:Initialize()
     self:SetModel("models/props_lab/clipboard.mdl")
     DarkRP.ValidatedPhysicsInit(self, SOLID_VPHYSICS)
@@ -76,7 +78,7 @@ function ENT:OnTakeDamage(dmg)
     self:Remove()
 end
 
-function ENT:onPlayerDisconnected(ply)
+function ENT:onPlayerDisconnected()
     if self:Getowning_ent() == ply or self:Getrecipient() == ply then
         self:Remove()
     end
