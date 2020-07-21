@@ -25,7 +25,9 @@ function ENT:Draw()
     surface.SetFont("ChatFont")
     local text = DarkRP.getPhrase("cheque_pay", recipientplayer and recipient:Nick() or DarkRP.getPhrase("unknown")) .. "\n" .. DarkRP.formatMoney(self:Getamount()) .. "\n" .. DarkRP.getPhrase("signed", ownerplayer and owner:Nick() or DarkRP.getPhrase("unknown"))
 
-    cam.Start3D2D(Pos, Ang, 0.1)
-        draw.DrawNonParsedText(text, "ChatFont", surface.GetTextSize(text) * -0.5, -25, localplayer:IsValid() and (ownerplayer and localplayer == owner and (recipientplayer and localplayer == recipient and self.TextColors.SelfToSelf or self.TextColors.SelfToOther) or recipientplayer and localplayer == recipient and self.TextColors.OtherToSelf) or self.TextColors.OtherToOther, 0)
-    cam.End3D2D()
+    if(localplayer:IsPlayer()) then
+        cam.Start3D2D(Pos, Ang, 0.1)
+            draw.DrawNonParsedText(text, "ChatFont", surface.GetTextSize(text) * -0.5, -25, localplayer:IsValid() and (ownerplayer and localplayer == owner and (recipientplayer and localplayer == recipient and self.TextColors.SelfToSelf or self.TextColors.SelfToOther) or recipientplayer and localplayer == recipient and self.TextColors.OtherToSelf) or self.TextColors.OtherToOther, 0)
+        cam.End3D2D()
+    end
 end
